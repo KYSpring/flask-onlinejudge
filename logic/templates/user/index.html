@@ -1,0 +1,72 @@
+
+{% extends 'frame.html' %}
+
+{% block title %}
+    STUDENT OJ
+{% endblock %}
+
+{%  block header %}
+<!--<style type="text/css">-->
+    <!--#search_content {width: 50%; margin-top: 4vmin;float: left;margin-left: 15%; margin-bottom: 10vmin}-->
+    <!--#search_button{width: 10%;float: left;margin-top: 4vmin}-->
+    <!--#4circle{margin-top: 10vmin}-->
+<!--</style>-->
+<div class="container theme-showcase" role="main">
+<form  class="form_inline" method="post" action="{{ url_for('user_func.pro_list') }}">
+     <!--<label class="sr_only" for="search_content"></label>-->
+     <input type="text" class="form-control" id="search_content1" name="search_content" placeholder="题搜搜">
+     <input type="submit" id="search_button1" class="btn btn-info" value="搜索">
+</form>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="row placeholders" id="4circle">
+    <a href="{{ url_for('user_func.pro_list',pro_class='basic') }}">
+    <div class="col-xs-6 col-sm-3 placeholder">
+        <img src="../../static/img/1.jpg" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+        <h4>语言基础</h4>
+        <span class="text-muted">Basic Training</span>
+    </div>
+    </a>
+
+    <!--<img src="../../img/basic.jpg" height="266" width="640"/>-->
+    <a href="{{ url_for('user_func.pro_list',pro_class='structure') }}">
+    <div class="col-xs-6 col-sm-3 placeholder">
+        <img src="../../static/img/2-1.jpg" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+        <h4>数据结构</h4>
+        <span class="text-muted">Data Structure</span>
+    </div>
+    </a>
+
+    <a href="{{ url_for('user_func.pro_list',pro_class='algorithm') }}">
+    <div class="col-xs-6 col-sm-3 placeholder">
+        <img src="../../static/img/3.jpg" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+        <h4>算法进阶</h4>
+        <span class="text-muted">Algorithm Training</span>
+    </div>
+    </a>
+
+    <a href="{{ url_for('spider.spider_search') }}">
+    <div class="col-xs-6 col-sm-3 placeholder">
+        <img src="../../static/img/4.jpg" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+        <h4>爬虫定制训练</h4>
+        <span class="text-muted">Personal Selection</span>
+    </div>
+    </a>
+</div>
+<!--<div id="basiclevel" >-->
+    <!--<a href="{{ url_for('user_func.pro_list',pro_class='basic') }}">语言基础</a>-->
+<!--</div>-->
+<!--<div id="structure">-->
+    <!--<a href="{{ url_for('user_func.pro_list',pro_class='structure') }}">数据结构</a>-->
+<!--</div>-->
+<!--<div id="algorithm">-->
+    <!--<a href="{{ url_for('user_func.pro_list',pro_class='algorithm') }}">算法进阶</a>-->
+<!--</div>-->
+<!--<div id="personal_rec">-->
+    <!--<a href="">个性定制训练题</a>-->
+<!--</div>-->
+
+{% endblock %}

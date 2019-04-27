@@ -1,0 +1,43 @@
+{% extends 'frame.html' %}
+
+{% block content %}
+{% for message in get_flashed_messages() %}
+    <div class = "flash" >{{message}}</div>
+{% endfor %}
+<form id="create_user_form" method="post">
+    <div class="col-md-6">
+    <table id="create_user_table" class="table table-bordered">
+        <tr>
+            <td>用户名：</td>
+            <td><input type="text" name="name" ></td>
+        </tr>
+        <tr>
+            <td>密码：</td>
+            <td><input type="password" name="password"></td>
+        </tr>
+        <tr>
+            <td>学校：</td>
+            <td><input type="text" name="school"></td>
+        </tr>
+        <tr>
+            <td>年级：</td>
+            <td><input type="text" name="grade"></td>
+        </tr>
+        <tr>
+            <td>联系方式：</td>
+            <td><input type="text" name="telephone"></td>
+        </tr>
+        <tr>
+            <td>是否为管理员：</td>
+            <td>
+            <select name="isadmin">
+                <option>0</option>
+                <option>1</option>
+            </select>
+            </td>
+        </tr>
+        <tr><td><input class="btn btn-primary" type="submit" value="提交"></td></tr>
+    </table>
+    </div>
+</form>
+{% endblock content %}

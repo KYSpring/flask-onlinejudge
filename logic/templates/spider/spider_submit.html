@@ -1,0 +1,56 @@
+{% extends 'frame.html'%}
+<style>
+    #pro_area {float:left; width: 50%; height: 80vmin;}
+    #area1{float:right ;width: 50%; height: 80vmin;}
+</style>
+
+{% block content %}
+<div class="container">
+    <div id = "pro_area" class="col-md-6">
+        <h3>{{ g.title }}</h3>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                题目描述
+            </div>
+            <div class="panel-body">
+                爬虫链接（{{ g.describe }}）<br>
+                <a href="{{ g.describe }}" class="btn btn-info">点击进入</a>
+            </div>
+        </div>
+    </div>
+
+     <div id ="code_area" class="col-md-6">
+        <form method="post" action="{{ url_for('spider.spider_submit',pro_ojid = g.pro_ojid) }}">
+            <div id="submit_bar" class="container">
+                <div class="col-md-4">
+                <select id="submit_select" class="form-control" name = 'language'>
+                    <option value="G++">G++</option>
+                    <option value="gcc">gcc</option>
+                    <option value="java">java</option>
+                    <option value="pascal">pascal</option>
+                    <option value="C++">C++</option>
+                    <option value="C">C</option>
+                    <option value="Fortran">Fortran</option>
+                </select>
+                </div>
+                <div class="col-md-3">
+                <input id="pro_submit" class="btn btn-primary" type="submit" value="运行">
+                </div>
+            </div>
+            <textarea id="editor" name="code" >//请在此处输入代码</textarea>
+        </form>
+     </div>
+</div>
+<script>
+    var editor = CodeMirror.fromTextArea(document.getElementById("editor"),
+        {
+            lineNumbers: true,//是否显示行号
+            mode: "python",　//默认脚本编码
+            lineWrapping: true //是否强制换行)
+        });
+    editor.setOption("theme","idea"); //editor.setOption()为codeMirror提供的设置风格的方
+    // editor.setOption("mode","clike");//editor.setOption()设置脚本类型
+</script>
+
+{% endblock content%}
+

@@ -1,0 +1,51 @@
+{% extends 'frame.html' %}
+{% block content %}
+<form id="create_pro_form" enctype="multipart/form-data" method="post">
+    <div class="col-md-6">
+    <table class="table table-striped">
+        <tr>
+            <td>输入标题:<input type="text" name="title"></td>
+            <td>Tag:<input type="text" name="tag" value="输入个性标签"></td>
+        </tr>
+        <tr>
+            <td>选择类别
+                <select class="btn btn-sm btn-default" name="pro_class">
+                    <option>basic</option>
+                    <option>structure</option>
+                    <option>algorithm</option>
+                </select>
+            </td>
+            <td>选择难度
+                <select class="btn btn-sm btn-default" name="pro_level">
+                    <option>难</option>
+                    <option>中</option>
+                    <option>易</option>
+                </select>
+            </td>
+        </tr>
+            <td >上传题目描述txt版<input type="file" name="txt" value="题目描述txt"></td>
+            <td>上传题目描述pdf版<input type="file" name="pdf" value="题目描述pdf"></td>
+            <td>上传图片<input type="file" name="img" value="上传图片"></td>
+        <tr>
+            <td>输入数据1<input type="file" name="input_data1" value="数据1"></td>
+            <td>输入数据2<input type="file" name="input_data2" value="数据2"></td>
+            <td>输入数据3<input type="file" name="input_data3" value="数据3"></td>
+        </tr>
+        <tr>
+            <td>输入数据4<input type="file" name="input_data4" value="数据4"></td>
+            <td>输入数据5<input type="file" name="input_data5" value="数据5"></td>
+        </tr>
+        <tr>
+            <td>输出数据1<input type="file" name="output_data1" value="上传输出数据1"></td>
+            <td>输出数据2<input type="file" name="output_data2" value="上传输出数据2"></td>
+            <td>输出数据3<input type="file" name="output_data3" value="上传输出数据3"></td>
+        </tr>
+        <tr>
+            <td>输出数据4<input type="file" name="output_data4" value="上传输出数据4"></td>
+            <td>输出数据5<input type="file" name="output_data5" value="上传输出数据5"></td>
+        </tr>
+        <tr><td><input class="btn btn-sm btn-info" type="submit" value="上传"></td></tr>
+    </table>
+    </div>
+</form>
+{% endblock content %}

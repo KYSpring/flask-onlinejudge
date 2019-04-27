@@ -1,0 +1,63 @@
+{% extends 'frame.html' %}
+{% block header %}
+<!--<h1>{% block title %}Register{% endblock %}</h1>-->
+{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="icon" href="../../favicon.ico">-->
+    <link rel="icon" href="../../static/bootstrap-3.3.7/docs/favicon.ico"/>
+    <title>Register</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../../static/bootstrap-3.3.7/dist/css/bootstrap.min.css">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link rel="stylesheet" href="../../static/bootstrap-3.3.7/docs/assets/css/ie10-viewport-bug-workaround.css">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="../../static/signin.css">
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]> <script src="../../static/bootstrap-3.3.7/docs/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../../static/bootstrap-3.3.7/docs/assets/js/ie-emulation-modes-warning.js"></script>
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="../../static/html5shiv.min.js"></script>
+    <script src="../../static/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="container">
+
+    <form method="post" class="form-signin">
+        <h2 class="form-signin-heading">注册</h2>
+        <label for="username" class="sr-only">用户名</label>
+        <input type="text" name="username" id="username" class="form-control" placeholder="用户名" required autofocus>
+        <label for="password" class="sr-only">密码</label>
+        <input type="password" id="password" class="form-control" placeholder="密码" name="password" required>
+        <label for = "school" class="sr-only">学校</label>
+        <input name= "school" id ="school"  class="form-control" placeholder="学校" type="text">
+        <label for = "grade" class="sr-only">年级</label>
+        <input name= "grade" id ="grade" class="form-control" placeholder="年级" type="text">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">提交注册</button>
+    </form>
+    <!--<label for = "username">用户名</label><input name = "username" id = "username" required>-->
+    <!--<label for = "password" >密码</label><input type = "password" name= "password" id ="password" required>-->
+</div> <!-- /container -->
+
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../../static/bootstrap-3.3.7/docs/assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+
+{% endblock %}

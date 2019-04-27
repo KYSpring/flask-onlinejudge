@@ -1,0 +1,61 @@
+{% extends 'frame.html' %}
+
+{%  block header %}
+<div class="container theme-showcase" role="main">
+    <form  class="form_inline" method="post" action="{{ url_for('admin.showlist') }}">
+        <!--<label class="sr_only" for="search_content"></label>-->
+        <select id="select" name="table" class="form-control">
+            <option value="oj_problem">搜题目</option>
+            <option value="oj_user">搜用户</option>
+        </select>
+        <input type="text" class="form-control" id="search_content" name="search_content" placeholder="用户或题目检索">
+        <input type="submit" id="search_button" class="btn btn-info" value="搜索">
+    </form>
+    <!--<form method="post" action="{{ url_for('admin.showlist') }}">-->
+    <!--<select name="table">-->
+    <!--<option value="oj_problem">搜题目</option>-->
+    <!--<option value="oj_user">搜用户</option>-->
+    <!--</select>-->
+    <!--<input type="text" name="search_content" value="搜索内容">-->
+    <!--<input type="submit" value="搜索">-->
+    <!--</form>-->
+</div>
+
+<!--<div id="search">-->
+<!--<form method="post" action="{{ url_for('admin.showlist') }}">-->
+    <!--<select name="table">-->
+        <!--<option value="oj_problem">搜题目</option>-->
+        <!--<option value="oj_user">搜用户</option>-->
+    <!--</select>-->
+    <!--<input type="text" name="search_content" value="搜索内容">-->
+    <!--<input type="submit" value="搜索">-->
+<!--</form>-->
+<!--</div>-->
+{% endblock header%}
+
+{% block content %}
+<div class="col-md-6" align="center" id="pro_list">
+        <table class="table table-striped">
+            <tr>
+            <td>编号</td>
+            <td>用户名</td>
+            <td>学校</td>
+            <td>年级</td>
+            <td>联系方式</td>
+            <td>是否管理员</td>
+            <td><a href="{{url_for('admin.create_user')}}">新建用户</a></td>
+            </tr>
+            {% for entry in show_entries %}
+            <tr>
+            <td>{{ entry['ur_id'] }}</td>
+            <td>{{ entry['name'] }}</td>
+            <td>{{ entry['school'] }}</td>
+            <td>{{ entry['grade'] }}</td>
+            <td>{{ entry['telephone'] }}</td>
+            <td>{{ entry['isadmin']}}</td>
+            <td><a href="{{ url_for('admin.delete_user',ur_id = entry['ur_id']) }}">删除</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+</div>
+{% endblock %}

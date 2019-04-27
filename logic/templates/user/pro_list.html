@@ -1,0 +1,44 @@
+{% extends 'frame.html' %}
+
+{%  block header %}
+<div class="container theme-showcase" role="main">
+<form  class="form_inline" method="post" action="{{ url_for('user_func.pro_list') }}">
+    <!--<label class="sr_only" for="search_content"></label>-->
+    <input type="text" class="form-control" id="search_content1" name="search_content" placeholder="题搜搜">
+    <input type="submit" id="search_button1" class="btn btn-info" value="搜索">
+</form>
+</div>
+
+<!--<div id="search">-->
+<!--<form method="post">-->
+    <!--<input type="text" name="search_content" value="题搜搜">-->
+    <!--<input type="submit" value="搜索">-->
+<!--</form>-->
+<!--</div>-->
+{% endblock %}
+
+{% block content %}
+<div class="col-md-6" align="center" id="pro_list">
+        <table class="table table-striped">
+            <tr>
+            <th>编号</th>
+            <th>题目</th>
+            <th>分类</th>
+            <th>难度</th>
+            <th>标签</th>
+            <th>测评链接</th>
+            </tr>
+            {% for entry in pro_entries %}
+            <tr>
+            <td>{{ entry['pr_id'] }}</td>
+            <td>{{ entry['title'] }}</td>
+            <td>{{ entry['class'] }}</td>
+            <td>{{ entry['pro_level'] }}</td>
+            <td>{{ entry['tag'] }}</td>
+            <td><a href="{{ url_for('user_func.online_judge',pr_id = entry['pr_id']) }}">进入测评</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+</div>
+
+{% endblock %}
