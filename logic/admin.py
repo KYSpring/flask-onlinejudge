@@ -45,13 +45,16 @@ def showlist():
         searchcontent = request.form['search_content']
         db = get_db()
         if table=='oj_problem':
-            command = 'SELECT * FROM oj_problem WHERE class like \'%'+searchcontent+'%\' OR title like \'%'+searchcontent+'%\' OR pr_id like \'%'+searchcontent+'%\''
+            command = 'SELECT * FROM oj_problem WHERE class like \'%'+searchcontent+\
+                      '%\' OR title like \'%'+searchcontent+'%\' OR pr_id like \'%'+searchcontent+'%\''
             show_entries = db.execute(command).fetchall()
             db.commit()
             db.close()
             return render_template('/admin/show_pro.html', show_entries=show_entries)
         elif table=='oj_user':
-            command = 'SELECT * FROM oj_user WHERE ur_id like \'%'+searchcontent+'%\' OR name like \'%'+searchcontent+'%\' OR school like \'%'+searchcontent+'%\' OR grade like \'%'+searchcontent+'%\''
+            command = 'SELECT * FROM oj_user WHERE ur_id like \'%'+searchcontent+\
+                      '%\' OR name like \'%'+searchcontent+'%\' OR school like \'%'+\
+                      searchcontent+'%\' OR grade like \'%'+searchcontent+'%\''
             show_entries = db.execute(command).fetchall()
             db.commit()
             db.close()
@@ -92,7 +95,8 @@ def create_user():
 
         if error is None:
             db.execute(
-                'INSERT INTO oj_user (name,password,school,grade,telephone,isadmin) VALUES (?,?,?,?,?,?)',(name,generate_password_hash(password),school,grade,telephone,isadmin)
+                'INSERT INTO oj_user (name,password,school,grade,telephone,isadmin) VALUES (?,?,?,?,?,?)',
+                (name,generate_password_hash(password),school,grade,telephone,isadmin)
             )
             db.commit()
             # return redirect(url_for('admin.create_user'))

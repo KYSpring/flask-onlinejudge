@@ -7,3 +7,12 @@ def getstatusoutput(cmd):
     if sts is None:sts = 0
     if text[-1:] == '\n':text = text[:-1]
     return sts, text
+
+
+def getstatusoutput(cmd):
+    import os
+    pipe = os.popen(cmd, 'r')
+    sts = pipe.close()
+    if sts is None:
+        sts = 0
+    return sts

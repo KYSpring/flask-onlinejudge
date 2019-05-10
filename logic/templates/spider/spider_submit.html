@@ -13,8 +13,10 @@
                 题目描述
             </div>
             <div class="panel-body">
-                爬虫链接（{{ g.describe }}）<br>
-                <a href="{{ g.describe }}" class="btn btn-info">点击进入</a>
+                {% for line in g.describe %}
+                    {{ line }}<br>
+                {% endfor %}
+                <!--<a href="{{ g.describe }}" class="btn btn-info">点击进入</a>-->
             </div>
         </div>
     </div>

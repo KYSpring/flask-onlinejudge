@@ -1,5 +1,8 @@
 #-*-coding: utf-8 -*-
-import os
+import sys
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
+import time
 import urllib2
 import urllib
 import cookielib
@@ -61,9 +64,13 @@ def spider_search():
         title = ptitle2[1:-1]
         print title
         g.title = pro_ojid + '.' + title
-        g.describe = 'http://poj.org/problem?id=' + pro_ojid
+        # g.describe = 'http://poj.org/problem?id=' + pro_ojid
         g.pro_ojid = pro_ojid
         # title解决
+        from bs import analyse
+        analyse(url2 + pro_ojid)
+        with open('F:\\biyesheji\gradu_pro\\base_version\spider_content\POJ.txt','r') as poj:
+            g.describe = poj.readlines()
         return render_template('/spider/spider_submit.html')
     return render_template('/spider/search.html')
 
@@ -107,6 +114,7 @@ def spider_submit():
     fhandle3.write(data3)
     fhandle3.close()
     #返回提交的结果
+    time.sleep(5)
     url4 = "http://poj.org/status?problem_id="+pro_ojid+"&user_id=STUDENTOJ&result=&language="
     req4 = urllib2.Request(url4)
     req4.add_header('User-Agent', useragent)

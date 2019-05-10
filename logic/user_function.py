@@ -1,14 +1,8 @@
 #-*-coding:utf-8-*-
-import sqlite3
-import re
+import datetime,signal
 import os
 import subprocess
 from run_cmd import getstatusoutput
-import urllib2
-import urllib
-import cookielib
-import base64
-import chardet
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -17,8 +11,11 @@ from flask import Blueprint,request,session,g,redirect,url_for,abort,render_temp
 from werkzeug.security import check_password_hash,generate_password_hash
 from database_op import get_db
 import functools
+import threading
+import time
 path = 'F:\\biyesheji\\gradu_pro\\base_version\\problem'
 bp2 = Blueprint('user_func',__name__,url_prefix='/user_func')
+time_out = 10
 
 
 def run_python3(id=1):
@@ -45,18 +42,29 @@ def run_python3(id=1):
             # cmd_error1 = obj1.stderr.read()
             # obj1.stderr.close()
             # print cmd_out1,cmd_error1
-
             command = 'F:\\anaconda\\content\\python.exe ' + file_path  #此处若直接输入python，会默认为Python2版本，还没搞清楚为什么
             print 'this is :'+command
-            obj = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            start = datetime.datetime.now()
+            obj = subprocess.Popen(command, stdin=subprocess.PIPE,
+                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             obj.stdin.write(input_data)
             obj.stdin.close()
+            while obj.poll() is None:
+                time.sleep(1)
+                now = datetime.datetime.now()
+                if (now - start).seconds > time_out:
+                    os.popen('taskkill.exe /f /pid:' + str(obj.pid), 'r')
+                    print obj.pid
+                    sta = 0
+                    msg = "运行超时"
+                    return sta, msg
             cmd_out = obj.stdout.read()
             obj.stdout.close()
             cmd_error = obj.stderr.read()
             userans = list(cmd_out)
-            userans.pop()
-            userans.pop()
+            if len(userans) != 0 :
+                userans.pop()
+                userans.pop()
             obj.stderr.close()
             # print cmd_out  # 测试输出
             # print cmd_error  # 同上
@@ -90,9 +98,19 @@ def run_python2(id=2):
             output_f.close()
             command = 'python2 '+file_path
             # print command
-            obj = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+            start = datetime.datetime.now()
+            obj = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             obj.stdin.write(input_data)
             obj.stdin.close()
+            while obj.poll() is None:
+                time.sleep(1)
+                now = datetime.datetime.now()
+                if (now - start).seconds > time_out:
+                    os.popen('taskkill.exe /f /pid:' + str(obj.pid), 'r')
+                    print obj.pid
+                    sta = 0
+                    msg = "运行超时"
+                    return sta, msg
             cmd_out = obj.stdout.read()
             obj.stdout.close()
             cmd_error = obj.stderr.read()
@@ -105,20 +123,26 @@ def run_python2(id=2):
             elif list(cmd_out) == list(ans):
                 count = count+1
     msg = '通过样例数：'+str(count)+'；总样例数：'+str(total_case)+'；通过率：'+str(float(count)/total_case*100)+'%'
+    global time_pass
+    time_pass = 1
     return 1, msg
 
 
 def run_cpp(id = 1):
     input_dir = path+'/'+str(id)+'/input'
     output_dir = path+'/'+str(id)+'/output'
-    command1 = 'cd ' + path
-    command2 = 'f:'
-    command3 = 'g++ -o newcpp newcpp.cpp'
+    # command1 = 'cd ' + path
+    # command2 = 'f:'
+    # command3 = 'g++ -o newcpp newcpp.cpp'
     # command4 = 'newcpp.exe <1_input.txt> output_tmp.txt'
-    command = command1 + '&&' + command2 + '&&' + command3
+    # command = command1 + '&&' + command2 + '&&' + command3
+    command = "g++ -o F:\\biyesheji\\gradu_pro\\base_version\\problem\\newcpp F:\\biyesheji\gradu_pro\\base_version\\problem\\newcpp.cpp"
     print command
-    s, r = getstatusoutput(command)
-    print s, r
+    # s, r = getstatusoutput(command)
+    pipe = os.popen(command, 'r')
+    s = pipe.close()
+    if s is None:
+        s = 0
     count = 0  # 用于测试样例计数
     total_case = 0
     if s == 1:
@@ -130,10 +154,30 @@ def run_cpp(id = 1):
             total_case = len(files)
             for input_file in files:
                 input_file_path = input_dir+'/'+input_file
-                command4 = 'newcpp.exe <'+input_file_path+'> output_tmp.txt'
-                command = command+'&&'+command4
-                print command
-                s,r =getstatusoutput(command)
+                # command4 = 'F:\\biyesheji\\gradu_pro\\base_version\\problem\\newcpp.exe <'+input_file_path+'> F:\\biyesheji\\gradu_pro\\base_version\\problem\\output_tmp.txt'
+                command4 = 'F:\\biyesheji\\gradu_pro\\base_version\\problem\\newcpp.exe'
+                input_f = open(input_file_path, 'r')
+                input_data = input_f.read()
+                start = datetime.datetime.now()
+                process = subprocess.Popen(command4, stdin=subprocess.PIPE,
+                                           stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                process.stdin.write(input_data)
+                process.stdin.close()
+                while process.poll() is None:
+                    time.sleep(1)
+                    now = datetime.datetime.now()
+                    if(now - start).seconds > time_out:
+                        os.popen('taskkill.exe /f /pid:' + str(process.pid), 'r')
+                        print process.pid
+                        sta = 0
+                        msg = "运行超时"
+                        return sta, msg
+                # pipe = os.popen(command, 'r')
+                # pipe.close()
+                cmd_out = process.stdout.read()
+                process.stdout.close()
+                with open(path + '/output_tmp.txt', 'w')as f_out:
+                    f_out.write(cmd_out)
                 output_tmp_f = open(path+'/output_tmp.txt', 'r')
                 userans = output_tmp_f.read()
                 output_tmp_f.close()
@@ -166,7 +210,8 @@ def pro_list(pro_class=None):
         print '这是个POST'
         searchcontent = request.form['search_content']
         db = get_db()
-        command = 'SELECT * FROM oj_problem WHERE class like \'%'+searchcontent+'%\' OR title like \'%'+searchcontent+'%\' OR pr_id like \'%'+searchcontent+'%\''
+        command = 'SELECT * FROM oj_problem WHERE class like \'%'+searchcontent+\
+                  '%\' OR title like \'%'+searchcontent+'%\' OR pr_id like \'%'+searchcontent+'%\''
         print command
         pro_entries = db.execute(
             # 'SELECT pr_id,title,img_url,txt_url,pdf_url,class,pro_level,tag,input_url,output_url'
@@ -175,7 +220,7 @@ def pro_list(pro_class=None):
         db.close()
         return render_template('/user/pro_list.html', pro_entries=pro_entries)
     elif request.method == 'GET':
-        print '这是个GET'
+        # print '这是个GET'
         if pro_class is not None:
             db = get_db()
             command = 'SELECT * FROM oj_problem WHERE class like \'%'+pro_class+'%\''
@@ -197,7 +242,7 @@ def pro_list(pro_class=None):
 
 
 @bp2.route('/online_judge',methods = ['GET', 'POST'])
-@login_required
+# @login_required
 def online_judge():
     pr_id = request.values.get('pr_id')
     if request.method == 'POST':
@@ -206,7 +251,7 @@ def online_judge():
             with open(path+'/newcpp.cpp', 'w+') as f:
                 f.write(code_content)
             flash('submit successfully!')
-            sta,msg = run_cpp(pr_id)
+            sta, msg = run_cpp(pr_id)
             return render_template('/user/compile_result.html', msg=msg, sta=sta)
         elif request.form['language'] == 'python2':
             with open(path+'/newpython2.py', 'w+')as f:
@@ -218,7 +263,7 @@ def online_judge():
             with open(path+'/newpython3.py','w+')as f:
                 f.write(code_content)
             flash('submit successfully!')
-            sta,msg = run_python3(pr_id)
+            sta, msg = run_python3(pr_id)
             return render_template('/user/compile_result.html', msg=msg, sta=sta)
     db = get_db()
     command = 'select pr_id,title,img_url,txt_url,pdf_url,class,pro_level,tag,input_url,output_url from oj_problem where pr_id = '+ pr_id
