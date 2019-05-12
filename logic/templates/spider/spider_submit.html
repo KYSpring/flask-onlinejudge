@@ -47,11 +47,18 @@
     var editor = CodeMirror.fromTextArea(document.getElementById("editor"),
         {
             lineNumbers: true,//是否显示行号
-            mode: "python",　//默认脚本编码
-            lineWrapping: true //是否强制换行)
+            mode: "text/x-c++src",　//默认脚本编码
+            lineWrapping: false //是否强制换行)
         });
     editor.setOption("theme","idea"); //editor.setOption()为codeMirror提供的设置风格的方
-    // editor.setOption("mode","clike");//editor.setOption()设置脚本类型
+    function change_mode(x) {
+        if (x=='c/c++'){
+            editor.setOption("mode","text/x-c++src");
+        }
+        else {
+            editor.setOption("mode","python");
+        }
+    }
 </script>
 
 {% endblock content%}

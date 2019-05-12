@@ -9,48 +9,64 @@
     <link rel="stylesheet" href="../static/codemirror-5.45.0/theme/base16-dark.css">
 
     <script src="../static/codemirror-5.45.0/lib/codemirror.js"></script>
-    <script src="../static/codemirror-5.45.0/mode/javascript/javascript.js"></script>
     <script src="../static/codemirror-5.45.0/mode/python/python.js"></script>
     <script src="../static/codemirror-5.45.0/mode/clike/clike.js"></script>
+    <script src="../static/jquery-3.4.0.min.js"></script>
 
 
 </head>
 <body>
 <!--选择脚本编码代码-->
-<!--<div class="controls">-->
-    <!--<input class="ck-code" type="radio" name="script_once_type" id="script_once_type1" checked> shell-->
-    <!--<input class="ck-code" type="radio" name="script_once_type" id="script_once_type2"> bat-->
-    <!--<input class="ck-code" type="radio" name="script_once_type" id="script_once_type3"> python-->
-<!--</div>-->
+<div class="controls">
+    <input class="ck-code" type="radio" name="script_once_type" id="script_once_type1" checked> c++
+    <input class="ck-code" type="radio" name="script_once_type" id="script_once_type2"> python
+</div>
 
 <!--选择脚本风格代码-->
-<!--<div class="controls">-->
-    <!--<select id='select'>-->
-        <!--<option>default</option>-->
-        <!--<option>3024-night</option>-->
-        <!--<option selected>erlang-dark</option>-->
-    <!--</select>-->
-<!--</div>-->
+<div class="controls">
+    <select id='select'>
+        <option>default</option>
+        <option>3024-night</option>
+        <option selected>base16-dark</option>
+    </select>
+</div>
 
 <!--textarea-->
-<textarea id="script_once_code">
-
+<textarea id="script_once_code">#include &lt;iostream&gt;</textarea>
+<textarea id="code2" class="hide">
+    #!/usr/bin/env python
+    # -*- coding: utf8 -*-
 </textarea>
+
+</body>
 <script>
-    // var myCodeMirror = CodeMirror(document.getElementById('editor'));
-    var editor = CodeMirror.fromTextArea(document.getElementById("script_once_code"), { //script_once_code为你的textarea的ID号
+    var editor = CodeMirror.fromTextArea($("#script_once_code")[0], { //script_once_code为你的textarea的ID号
         lineNumbers: true,//是否显示行号
-        mode:"python",　//默认脚本编码
-        lineWrapping:true//是否强制换行
+        mode:"clike",　//默认脚本编码
+        lineWrapping:true, //是否强制换行
     });
     //选择界面风格JS
-    editor.setOption("theme","base16-dark"); //editor.setOption()为codeMirror提供的设置风格的方
-    // var txt1=editor.getValue(); //editor.getValue()获取textarea中的值
-    // editor.setOption("mode","clike");//editor.setOption()设置脚本类型
-    // editor.setValue(txt1);// editor.setValue()设置textarea中的值
+    $('#select').change(function(){
+        var theme = $('#select').val();
+        editor.setOption("theme", theme); //editor.setOption()为codeMirror提供的设置风格的方法
+    });
 
+    //选择脚本类型JS
+    var txt1=$("#script_once_code").val();
+    var txt2=$("#code2").val();
+    // var txt3=
+    $(".ck-code").click(function(){
+        var txt=editor.getValue(); //editor.getValue()获取textarea中的值
+        var lang=$(this).prop("id");
+        if(lang=="script_once_type1") {
+            editor.setOption("mode","clike");//editor.setOption()设置脚本类型
+            editor.setValue(txt1);// editor.setValue()设置textarea中的值
+        }
+        else if(lang=="script_once_type2") {
+            editor.setOption("mode","python");
+            editor.setValue(txt2);
+        }
+    });
 </script>
-</body>
-
 
 </html>
