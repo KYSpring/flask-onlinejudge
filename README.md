@@ -19,3 +19,7 @@ base_version里基本实现了oj的基本功能；
 超时评测利用子进程轮询和killtask指令实现
 
 题目解析利用beautifulsoup和自带html.parser解析器实现
+
+## 2019/5/12 改进代码编辑器实现python和c++高亮
+
+使用codemirror实现
